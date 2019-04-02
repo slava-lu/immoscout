@@ -1,8 +1,8 @@
 # mySQL database configuration
 storage:
-  host: localhost
+  host: immoscout-db
   user: root
-  password: secret
+  password: mypassword
   database: apartments
 
 # Crawler configuration (connection, delays, etc.)
