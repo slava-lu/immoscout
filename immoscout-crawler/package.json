@@ -1,0 +1,17 @@
+{
+  "name": "immoscout-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cron": "^1.7.0",
+    "date-fns": "^1.30.1",
+    "js-yaml": "^3.12.2",
+    "mysql": "^2.16.0",
+    "puppeteer": "^1.13.0",
+    "sprintf-js": "^1.1.2"
+  },
+  "scripts": {
+    "start": "node ./src/index.js"
+  }
+}
