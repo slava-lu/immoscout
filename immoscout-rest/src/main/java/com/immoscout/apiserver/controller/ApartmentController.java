@@ -1,6 +1,7 @@
 package com.immoscout.apiserver.controller;
 
 import com.immoscout.apiserver.model.meta.MetaInfo;
+import com.immoscout.apiserver.model.statistics.CostMovement;
 import com.immoscout.apiserver.model.statistics.CostTrend;
 import com.immoscout.apiserver.service.ApartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class ApartmentController {
     @RequestMapping("/cost-trend")
     public Mono<CostTrend> getCostTrend(@RequestParam String region, @RequestParam String room) {
         return Mono.justOrEmpty(apartmentService.getCostTrendList(region, room));
+    }
+
+    @RequestMapping("/cost-movement")
+    public Mono<CostMovement> getCostMovement() {
+        return Mono.justOrEmpty(apartmentService.getCostMovement());
     }
 }

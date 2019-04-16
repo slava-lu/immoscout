@@ -1,6 +1,7 @@
 package com.immoscout.apiserver.service;
 
 import com.immoscout.apiserver.model.meta.MetaInfo;
+import com.immoscout.apiserver.model.statistics.CostMovement;
 import com.immoscout.apiserver.model.statistics.CostTrend;
 import com.immoscout.apiserver.repository.ApartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class ApartmentService {
         costTrend.setRegion(region);
         costTrend.setRoom(room);
         return costTrend;
+    }
+    public CostMovement getCostMovement() {
+        CostMovement costMovement = new CostMovement();
+        costMovement.setMovementList(apartmentRepository.getCostMovementList());
+        return costMovement;
     }
 }

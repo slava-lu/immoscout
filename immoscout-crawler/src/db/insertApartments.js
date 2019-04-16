@@ -1,7 +1,7 @@
 const connection = require('./dbInit');
 const format = require('date-fns/format');
 
-const insertApartments = (apartments, region) => {
+const insertApartments = (apartments, region, page) => {
   const sqlInsert = `INSERT IGNORE INTO apartments
     (date, region, id, price, size, rooms, distance)
     VALUES `;
@@ -16,9 +16,10 @@ const insertApartments = (apartments, region) => {
     if (error) {
       console.log(error)
     }
+    console.log('Inserted', results.affectedRows, 'rows,', 'duplicate', results.warningCount, 'rows,', ' for site', region, 'page', page, 'at', new Date());
   });
 };
 
-module.exports = (apartments, region) => {
-  insertApartments(apartments, region);
+module.exports = (apartments, region, page) => {
+  insertApartments(apartments, region, page);
 };
