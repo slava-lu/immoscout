@@ -1,15 +1,16 @@
 package com.immoscout.apiserver.model.statistics;
 
 import java.util.List;
+import java.util.Map;
 
 public class CostMovement {
-    private List<CostMovementList> movementList;
+    private Map<Integer, List<CostMovementList>> movementMap;
 
-    public List<CostMovementList> getMovementList() {
-        return movementList;
+    public Map<Integer, List<CostMovementList>> getMovementMap() {
+        return movementMap;
     }
 
-    public void setMovementList(List<CostMovementList> movementList) {
-        this.movementList = movementList;
+    public void setMovementMap(Map<Integer, List<CostMovementList>> movementMap) {
+        this.movementMap = movementMap;
     }
 }

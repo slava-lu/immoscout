@@ -36,13 +36,10 @@ public class ApartmentRepository {
     }
 
     public List<CostMovementList> getCostMovementList() {
-
-        List<CostMovementList> result = namedParameterJdbcTemplate.query("SELECT record_id, region, date, id, price, " +
+        return namedParameterJdbcTemplate.query("SELECT record_id, region, date, id, price, " +
                 "rooms, ROUND(price/size) " + "AS price_per_meter FROM apartments WHERE id IN (SELECT id FROM " +
-                "apartments WHERE region = 'MUC-15'  " + "GROUP BY id HAVING COUNT(record_id) > 1) ORDER BY id, date," +
+                "apartments WHERE region = 'MUC-15'  " + "GROUP BY id HAVING COUNT(record_id) > 1) ORDER BY id," +
                 " record_id", new BeanPropertyRowMapper<>(CostMovementList.class));
-        System.out.println("result " + result.get(0).getId());
 
-        return result;
     }
 }
