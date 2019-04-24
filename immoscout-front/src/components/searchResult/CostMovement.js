@@ -53,9 +53,9 @@ class CostMovement extends Component {
           <YAxis ticks={[-35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35]}
                  label={{ value: '% ', position: 'insideTopLeft' }} />
           <ReferenceLine y={0} stroke='#000' />
-          <Bar dataKey="value">
-            {data.map((entry, index) => (
-              <Cell fill={entry.value > 0 ? "#db1515" : "#16b720"} />
+          <Bar dataKey="value" isAnimationActive={false}>
+            {data.map((entry) => (
+              <Cell key={entry.name} fill={entry.value > 0 ? "#db1515" : "#16b720"} />
             ))}
             <LabelList dataKey="labelKey" position="top" />
           </Bar>
