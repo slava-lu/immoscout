@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery, select } from 'redux-saga/effects';
 
-import { getApartmentMetaApi, getApartmentPriceTrendApi } from '../api/api';
+import { getApartmentMetaApi, getApartmentPriceTrendApi, getApartmentCostMovementApi } from '../api/api';
 
 const moduleName = 'apartment';
 
@@ -17,13 +17,19 @@ const GET_APARTMENT_PRICE_TREND_REQUEST = `${moduleName}/GET_APARTMENT_PRICE_TRE
 const GET_APARTMENT_PRICE_TREND_SUCCESS = `${moduleName}/GET_APARTMENT_PRICE_TREND_SUCCESS`;
 const GET_APARTMENT_PRICE_TREND_FAILURE = `${moduleName}/GET_APARTMENT_PRICE_TREND_FAILURE`;
 
+const GET_APARTMENT_COST_MOVEMENT_TRIGGER = `${moduleName}/GET_APARTMENT_COST_MOVEMENT_TRIGGER`;
+const GET_APARTMENT_COST_MOVEMENT_REQUEST = `${moduleName}/GET_APARTMENT_COST_MOVEMENT_REQUEST`;
+const GET_APARTMENT_COST_MOVEMENT_SUCCESS = `${moduleName}/GET_APARTMENT_COST_MOVEMENT_SUCCESS`;
+const GET_APARTMENT_COST_MOVEMENT_FAILURE = `${moduleName}/GET_APARTMENT_COST_MOVEMENT_FAILURE`;
+
 const initialState = {
   regions: [],
+  title: '',
   regionSelected: 'MUC-15',
   rooms: [],
   roomsSelected: '3.0',
-  defaultPage: 'price_trend',
   costStat: [],
+  movementMap: {},
   error: {}
 };
 
@@ -42,10 +48,17 @@ export default function reducer(state = initialState, action) {
       return { ...state, error };
 
     case GET_APARTMENT_PRICE_TREND_REQUEST:
-      return { ...state };
+      return { ...state, title: 'Apartment Price Trend' };
     case GET_APARTMENT_PRICE_TREND_SUCCESS:
       return { ...state, ...payload };
     case GET_APARTMENT_PRICE_TREND_FAILURE:
+      return { ...state, error };
+
+    case GET_APARTMENT_COST_MOVEMENT_REQUEST:
+      return { ...state, title: 'Apartment Cost Per Meter Changes' };
+    case GET_APARTMENT_COST_MOVEMENT_SUCCESS:
+      return { ...state, ...payload };
+    case GET_APARTMENT_COST_MOVEMENT_FAILURE:
       return { ...state, error };
 
     default:
@@ -72,6 +85,10 @@ export const requestApartmentMeta = () => ({
 
 export const requestApartmentPriceTrend = () => ({
   type: GET_APARTMENT_PRICE_TREND_TRIGGER,
+});
+
+export const requestApartmentCostMovement = () => ({
+  type: GET_APARTMENT_COST_MOVEMENT_TRIGGER,
 });
 
 const getApartmentMetaSaga = function* () {
@@ -110,9 +127,28 @@ const getApartmentPriceTrendSaga = function* () {
   }
 };
 
+const getApartmentCostMovementSaga = function* () {
+  yield put({ type: GET_APARTMENT_COST_MOVEMENT_REQUEST });
+  try {
+    const result = yield call(getApartmentCostMovementApi);
+    if (result.response.ok) {
+      const { movementMap } = result.data;
+
+      yield put({ type: GET_APARTMENT_COST_MOVEMENT_SUCCESS, payload: { movementMap } });
+    } else {
+      const { error } = result;
+      yield put({ type: GET_APARTMENT_COST_MOVEMENT_FAILURE, error });
+    }
+  } catch (error) {
+    yield put({ type: GET_APARTMENT_COST_MOVEMENT_FAILURE, error });
+  }
+};
+
+
 export const apartmentSagas = function* () {
   yield all([
     takeEvery(GET_APARTMENT_META_TRIGGER, getApartmentMetaSaga),
     takeEvery(GET_APARTMENT_PRICE_TREND_TRIGGER, getApartmentPriceTrendSaga),
+    takeEvery(GET_APARTMENT_COST_MOVEMENT_TRIGGER, getApartmentCostMovementSaga),
   ]);
 };

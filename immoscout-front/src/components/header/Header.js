@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { withStyles, } from '@material-ui/core/styles';
 
@@ -22,19 +23,24 @@ const styles = theme => ({
 
 class Header extends Component {
   render() {
-    const { t } = this.props;
+    const {title } = this.props;
     const { classes } = this.props;
     return (
       <AppBar position="static" color="default">
         <Toolbar>
-          <div className={classes.title}>{t('app_price_trend')}</div>
+          <div className={classes.title}>{title}</div>
         </Toolbar>
       </AppBar>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  title: state.apartment.title,
+});
+
 export default compose(
+  connect(mapStateToProps),
   withStyles(styles),
   translate()
 )(Header);

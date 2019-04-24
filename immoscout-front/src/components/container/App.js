@@ -4,10 +4,7 @@ import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { requestApartmentMeta } from '../../modules/apartment';
-
 import Header from '../header/Header';
-import SearchFormContainer from '../searchForm/SearchFormContainer';
 import SearchResultContainer from '../searchResult/SearchResultContainer';
 
 const styles = theme => ({
@@ -15,7 +12,7 @@ const styles = theme => ({
     maxWidth: 1160,
     marginLeft: 'auto',
     marginRight: 'auto',
-    padding: theme.spacing.unit * 6,
+    padding: theme.spacing.unit * 2,
     backgroundColor: theme.palette.background.paper,
     fontSize: theme.typography.fontSize,
     fontFamily: theme.typography.fontFamily,
@@ -29,11 +26,6 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  componentDidMount() {
-    const { requestApartmentMeta, defaultPage, history } = this.props;
-    requestApartmentMeta();
-    history.push(defaultPage);
-  }
 
   render() {
     const { classes } = this.props;
@@ -43,19 +35,15 @@ class App extends Component {
           <Header />
         </div>
         <div className={classes.contentContainer}>
-          <SearchFormContainer />
           <SearchResultContainer />
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = state => ({
-  defaultPage: state.apartment.defaultPage,
-});
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, { requestApartmentMeta }),
+  connect(),
   withStyles(styles)
 )(App);

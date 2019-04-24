@@ -5,3 +5,4 @@ import { API_BASE_URL } from '../config/consts';
 
 export const getApartmentMetaApi = () => makeApiCall(`${API_BASE_URL}/meta`, 'GET');
 export const getApartmentPriceTrendApi = queryObj => makeApiCall(`${API_BASE_URL}/cost-trend`, 'GET', null, queryObj);
+export const getApartmentCostMovementApi = () => makeApiCall(`${API_BASE_URL}/cost-movement`, 'GET');
